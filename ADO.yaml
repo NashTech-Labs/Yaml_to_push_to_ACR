@@ -1,0 +1,21 @@
+trigger:
+- main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  imageRepository: '<your-acr-name>.azurecr.io/<your-image-name>'
+  dockerfilePath: '<path-to-dockerfile>'
+  tag: '$(Build.BuildId)'
+
+steps:
+- task: Docker@2
+  displayName: Build and push image
+  inputs:
+    containerRegistry: '<your-acr-name>'
+    repository: '$(imageRepository)'
+    command: 'buildAndPush'
+    Dockerfile: '$(dockerfilePath)'
+    tags: |
+      $(tag)
